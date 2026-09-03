@@ -11,9 +11,8 @@ export function HeroSection() {
   const [activePlayer, setActivePlayer] = useState('A'); // 'A' or 'B'
   const isTransitioningRef = useRef(false);
 
+  // Direct local video file sources
   const videoSources = [
-    "https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-a-beach-with-turquoise-water-and-palm-trees-41541-large.mp4",
-    "https://assets.mixkit.co/videos/preview/mixkit-top-aerial-view-of-a-beach-and-sea-41539-large.mp4",
     "/hero-video.mp4",
     "/hero-vedio.mp4"
   ];
@@ -26,7 +25,7 @@ export function HeroSection() {
   };
 
   useEffect(() => {
-    // Initial start of Player A
+    // Force immediate video play on mount with zero delay
     if (videoRefA.current) {
       videoRefA.current.play().catch(() => {});
     }
@@ -76,17 +75,17 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen min-h-[100dvh] w-full overflow-hidden flex items-center justify-center pt-20 pb-16">
-      {/* Seamless Dual-Video Cross-Fade Loop Engine */}
+      {/* Pure Direct Video Background (NO Poster Image, Instant Local Video Playback) */}
       <div className="absolute inset-0 z-0 overflow-hidden bg-[#0B0F17]">
         {/* Video Player A */}
         <video
           ref={videoRefA}
           autoPlay
+          loop
           muted
           playsInline
           preload="auto"
           onTimeUpdate={handleTimeUpdateA}
-          poster="https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=1920&q=85"
           className={`absolute inset-0 w-full h-full object-cover brightness-[0.88] contrast-[1.05] saturate-[1.1] transition-opacity duration-1000 ease-in-out pointer-events-none ${
             activePlayer === 'A' ? 'opacity-100 z-10' : 'opacity-0 z-0'
           }`}
@@ -99,11 +98,11 @@ export function HeroSection() {
         {/* Video Player B (Preloaded Standby for Seamless Crossfade) */}
         <video
           ref={videoRefB}
+          loop
           muted
           playsInline
           preload="auto"
           onTimeUpdate={handleTimeUpdateB}
-          poster="https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=1920&q=85"
           className={`absolute inset-0 w-full h-full object-cover brightness-[0.88] contrast-[1.05] saturate-[1.1] transition-opacity duration-1000 ease-in-out pointer-events-none ${
             activePlayer === 'B' ? 'opacity-100 z-10' : 'opacity-0 z-0'
           }`}
